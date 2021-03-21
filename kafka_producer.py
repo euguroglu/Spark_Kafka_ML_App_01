@@ -2,7 +2,7 @@ from kafka import KafkaProducer
 import json
 from json import dumps
 import uuid
-
+from time import sleep
 ####### Kafka Variables #######
 # Set message to send topic here
 simple_messages = [
@@ -10,8 +10,8 @@ simple_messages = [
 'This restaurant is great',
 'The weather is bad today',
 'I will go to the beach this weekend',
-'She likes to swim',
-'Apple is a great company'
+'I dont know really',
+'I hate you'
 ]
 
 
@@ -25,6 +25,7 @@ def kafka_producer():
 		data = {'data':data}
 		producer.send('test', value=json.dumps(data).encode('utf-8'))
 		producer.flush()
+		sleep(0.5)
 	print("Messages are sent")
 
 ####### Inıtialize producer #######
