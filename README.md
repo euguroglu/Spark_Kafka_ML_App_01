@@ -31,7 +31,7 @@ def kafka_producer():
 		producer.flush()
 		sleep(0.5)
 	print("Messages are sent")
-	```
+```
 - [x] Create flask application (app.py)
 - [x] Import nltk library for sentiment analysis
 ```
@@ -54,6 +54,7 @@ def predict():
 ```
 - [x] Create spark file (spark_kafka_ml.py)
 - [x] Create spark SparkSession
+
 ```
 #Create spark session
 spark = SparkSession \
@@ -63,7 +64,9 @@ spark = SparkSession \
     .config("spark.streaming.stopGracefullyOnShutdown", "true") \
     .getOrCreate()
 ```
+
 - [x] Read from kafka and define schema
+
 ```
 #Read message from kafka KafkaProducer
 #kafka_producer.py generates message
@@ -84,14 +87,18 @@ schema_output = StructType([StructField('neg', StringType()),\
                             StructField('neu', StringType()),\
                             StructField('compound', StringType())])
 ```
+
 - [x] Create user defined function to send df to http address
+
 ```
 def apply_sentiment_analysis(data):
 
     result = requests.post('http://localhost:5000/predict', json=json.loads(data))
     return json.dumps(result.json())
 ```
+
 - [x] Get result back and create structure
+
 ```
 #User defined function created to send read value to flask
 vader_udf = udf(lambda data: apply_sentiment_analysis(data), StringType())
@@ -103,7 +110,9 @@ value_df.printSchema()
 #We select sentence and response values
 explode_df = value_df.select("sentence.data", "response.*")
 ```
+
 - [x] Write stream to console
+
 ```
 #Write stream to console
 console_query = explode_df \
@@ -115,7 +124,8 @@ console_query = explode_df \
     .start()
 
 console_query.awaitTermination()
- ```
+```
+
 - [] Create Elasticsearch database
 - [] Sink data to Elasticsearch
 - [] Create visualization using Kibana
@@ -131,21 +141,28 @@ spark_kafka_ml.py is used to create read data from kafka, send data to Flask api
 ### Running
 
 1. Start zookeeper (Check kafka scripts)
+
 ```
 zookeeper-server-start.bat config\zookeeper.properties (zookeeper-server-start.sh for linux)
- ```
+```
+
 2. Start kafka (Check kafka scripts)
 ```
 kafka-server-start.bat config\server.properties  (kafka-server-start.sh for linux)
- ```
+```
+
 3. Execute below code first
+
 ```
 spark-submit kafka_producer.py
 ```
+
 4. Execute below code
+
 ```
 python app.py
 ```
+
 5. Execute below code
 ```
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 spark_kafka_ml.py
