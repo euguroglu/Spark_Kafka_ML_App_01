@@ -29,8 +29,6 @@ schema_output = StructType([StructField('neg', StringType()),\
 kafka_df.printSchema()
 #Function to send post request to flask application
 def apply_sentiment_analysis(data):
-    import requests
-    import json
 
     result = requests.post('http://localhost:5000/predict', json=json.loads(data))
     return json.dumps(result.json())
