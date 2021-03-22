@@ -126,9 +126,9 @@ console_query = explode_df \
 console_query.awaitTermination()
 ```
 
-- [] Create Elasticsearch database
-- [] Sink data to Elasticsearch
-- [] Create visualization using Kibana
+- [ ] Create Elasticsearch database
+- [ ] Sink data to Elasticsearch
+- [ ] Create visualization using Kibana
 
 ### Code Description
 
