@@ -60,6 +60,7 @@ console_query = explode_df \
 
 console_query.awaitTermination()
 ############Test kafka producer if spark reads kafka message correctly###########
+#You can use below code first before construct machine learning pipeline
 # value_df = kafka_df.select(from_json(col("value").cast("string"),schema).alias("value"))
 #
 # value_df.printSchema()
